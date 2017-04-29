@@ -12,6 +12,7 @@ var striptags = require('striptags');
 var xray = require('x-ray')();
 var cheerioTableparser = require('cheerio-tableparser');
 var cheerio = require('cheerio');
+var summary = require('node-tldr');
 
 var localeResponseEN = [
   'What are you searching for?',
