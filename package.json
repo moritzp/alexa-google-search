@@ -1,0 +1,11 @@
+{
+  "name": "Google-Search",
+  "private": true,
+  "version": "0.1.0",
+  "description": "adds Google as Alexa",
+  "scripts": {
+    "release": "zip -r Archive.zip src/*"
+  },
+  "author": "Various",
+  "license": "Apache License, Version 2.0"
+}
