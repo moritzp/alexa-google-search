@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "description": "adds Google as Alexa",
   "scripts": {
-    "release": "zip -r Archive.zip src/*"
+    "build": "rm Archive.zip ; cp src/* . ; zip -r Archive.zip *.js node_modules ; rm *.js"
   },
   "author": "Various",
   "license": "Apache License, Version 2.0"
