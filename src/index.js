@@ -12,11 +12,10 @@ var striptags = require('striptags');
 var xray = require('x-ray')();
 var cheerioTableparser = require('cheerio-tableparser');
 var cheerio = require('cheerio');
-var summary = require('node-tldr');
 
 var localeResponseEN = [
   'What are you searching for?',
-  'Google Search Result for: ',
+  'Google: ',
   'Error',
   'I found a table of Results.',
   'dot',
@@ -24,22 +23,22 @@ var localeResponseEN = [
   ' less than ',
   'I’m sorry, I wasn\'t able to find an answer.',
   'There was an error processing your search.',
-  'I could not find an exact answer. Here is my best guess: '
-
+  'I could not find an exact answer. Here is my best guess: ',
+  ' to '
 ];
 
 var localeResponseDE = [
   'Wonach soll ich googlen?',
-  'Google Suche nach: ',
+  'Google: ',
   'Fehler',
   'Ich fand eine Tabelle der Ergebnisse.',
-  'punkt',
+  'Punkt',
   ' und ',
   ' weniger als ',
   'Es tut mir leid, ich konnte keine Antwort finden.',
   'Bei der Suche ist leider ein Fehler aufgetreten.',
-  'Ich konnte keine genaue Antwort finden. Hier ist meine beste Vermutung: '
-
+  'Ich konnte keine genaue Antwort finden. Hier ist meine beste Vermutung: ',
+  ' bis '
 ];
 
 // Create google search URL - this made up of the main search URL plus a languange modifier (currently only needed for German)
@@ -52,7 +51,6 @@ var sessionLocale = '';
 
 var localeResponse = localeResponseEN;
 var localeGoogle = localeGoogleENUS;
-
 
 var APP_ID = undefined; //replace with 'amzn1.echo-sdk-ams.app.[your-unique-value-here]';
 
@@ -109,6 +107,7 @@ AlexaGoogleSearch.prototype.intentHandlers = {
       // deal with characters that are illegal in SSML
 
       speechOutputTemp = speechOutputTemp.replace(/&/g, localeResponse[5]); // replace ampersands
+      speechOutputTemp = speechOutputTemp.replace(/-/g, localeResponse[10]); // replace "up to"
       speechOutputTemp = speechOutputTemp.replace(/</g, localeResponse[6]); // replace < symbol
       speechOutputTemp = speechOutputTemp.replace(/""/g, ''); // replace double quotes
 
@@ -121,7 +120,7 @@ AlexaGoogleSearch.prototype.intentHandlers = {
       var speechOutput = speechOutputTemp.replace(/DECIMALPOINT/g, '.'); // Put back decimal points
 
       if (speechOutput === "") {
-        speechOutput = localeResponse[7]
+        speechOutput = localeResponse[7];
       }
 
       // Covert speechOutput into SSML so that pauses can be processed
@@ -132,36 +131,6 @@ AlexaGoogleSearch.prototype.intentHandlers = {
 
       response.tellWithCard(SSMLspeechOutput, cardTitle, cardOutputText);
     }
-
-    function parsePage(url, backUpText) {
-      console.log("Summarising first link");
-      summary.summarize(url, function(result, failure) {
-        backUpText = localeResponse[9] + backUpText;
-
-        if (failure) {
-          console.log("An error occured! " + result.error);
-          speakResults(localeResponse[8]);
-        }
-
-        if (result) {
-          console.log(result.title);
-          console.log(result.summary.join("\n"));
-          var summarisedText = localeResponse[9] + result.title + "ALEXAPAUSE" + result.summary.join("\n");
-
-          if (backUpText.length >= summarisedText.length) {
-
-            summarisedText = backUpText;
-          }
-
-          speakResults(summarisedText);
-        }
-      });
-    }
-
-    // Parsing routine modified from
-    // https://github.com/TheAdrianProject/AdrianSmartAssistant/blob/master/Modules/Google/Google.js
-
-    //parse queries
 
     // create userAgent string from a number of selections
 
@@ -305,7 +274,7 @@ AlexaGoogleSearch.prototype.intentHandlers = {
 
               found += ('ALEXAPAUSE');
             }
-            console.log('Found :' + found)
+            console.log('Found :' + found);
           }
 
           if (conversionError) {
@@ -344,8 +313,8 @@ AlexaGoogleSearch.prototype.intentHandlers = {
         if (linesInAnswer) {
           console.log(linesInAnswer + " Type 4 answer sections result");
 
-          for (var i = 0; i < linesInAnswer; i++) {
-            found = found + $('.g>div>table>tr>td>ol>li', body).eq(i).html() + ", ";
+          for (var j = 0; j < linesInAnswer; j++) {
+            found = found + $('.g>div>table>tr>td>ol>li', body).eq(j).html() + ", ";
           }
         }
       }
@@ -396,7 +365,7 @@ AlexaGoogleSearch.prototype.intentHandlers = {
       console.log("ERROR " + err);
       speechOutput = localeResponse[8];
       response.tell(speechOutput);
-    })
+    });
   },
 
   "AMAZON.StopIntent": function(intent, session, response) {
