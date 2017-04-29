@@ -12,11 +12,10 @@ var striptags = require('striptags');
 var xray = require('x-ray')();
 var cheerioTableparser = require('cheerio-tableparser');
 var cheerio = require('cheerio');
-var summary = require('node-tldr');
 
 var localeResponseEN = [
   'What are you searching for?',
-  'Google Search Result for: ',
+  'Google: ',
   'Error',
   'I found a table of Results.',
   'dot',
@@ -30,7 +29,7 @@ var localeResponseEN = [
 
 var localeResponseDE = [
   'Wonach soll ich googlen?',
-  'Google Suche nach: ',
+  'Google: ',
   'Fehler',
   'Ich fand eine Tabelle der Ergebnisse.',
   'Punkt',
@@ -108,7 +107,7 @@ AlexaGoogleSearch.prototype.intentHandlers = {
       // deal with characters that are illegal in SSML
 
       speechOutputTemp = speechOutputTemp.replace(/&/g, localeResponse[5]); // replace ampersands
-      speechOutputTemp = speechOutputTemp.replace(/-/g, localeResponse[10]); // replace ampersands
+      speechOutputTemp = speechOutputTemp.replace(/-/g, localeResponse[10]); // replace "up to"
       speechOutputTemp = speechOutputTemp.replace(/</g, localeResponse[6]); // replace < symbol
       speechOutputTemp = speechOutputTemp.replace(/""/g, ''); // replace double quotes
 
