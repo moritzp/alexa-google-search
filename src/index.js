@@ -29,7 +29,7 @@ var localeResponseEN = [
 ];
 
 var localeResponseDE = [
-  'Wonach soll ich suchen?',
+  'Wonach soll ich googlen?',
   'Google Suche nach: ',
   'Fehler',
   'Ich fand eine Tabelle der Ergebnisse.',
