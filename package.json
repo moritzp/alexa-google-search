@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "description": "adds Google as Alexa",
   "scripts": {
-    "build": "rm Archive.zip ; mkdir -p src/node_modules ; cp -R node_modules/alexa-sdk node_modules/cheerio node_modules/cheerio-tableparser node_modules/html-entities node_modules/node-tldr node_modules/request node_modules/request-promise node_modules/striptags node_modules/x-ray src/node_modules ; cd src ; zip -r ../Archive.zip * ; rm -rf src/node_modules"
+    "build": "rm Archive.zip ; mkdir -p src/node_modules ; cp -R node_modules/alexa-sdk node_modules/cheerio node_modules/cheerio-tableparser node_modules/html-entities node_modules/request node_modules/request-promise node_modules/striptags node_modules/x-ray src/node_modules ; cd src ; zip -r ../Archive.zip * ; rm -rf src/node_modules"
   },
   "author": "Various",
   "license": "Apache License, Version 2.0",
@@ -13,7 +13,6 @@
     "cheerio": "0.22.0",
     "cheerio-tableparser": "1.0.1",
     "html-entities": "1.2.1",
-    "node-tldr": "0.4.14",
     "request": "2.79.0",
     "request-promise": "4.1.1",
     "striptags": "2.1.1",
